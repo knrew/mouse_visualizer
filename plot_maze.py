@@ -1,11 +1,15 @@
 import matplotlib.pyplot as plt
 import csv
-import matplotlib.animation as animation
-import pandas as pd
 
-maze_data_name = '../maze5x5.csv'
+# import matplotlib.animation as animation
+# import pandas as pd
+
+maze_data_name = '../maze8x8.csv'
 search_route_name = '../search_route.csv'
 opt_route_name = '../opt_route.csv'
+
+fig = plt.figure(1)
+ax = fig.add_subplot(111)
 
 def plot_maze(data):
     cx = 0
@@ -43,6 +47,10 @@ def plot_maze(data):
 
     plt.plot(row[sx] + 0.5, row[sy] + 0.5, "og")
     plt.plot(row[gx] + 0.5, row[gy] + 0.5, "xg")
+
+    ax.grid(which="major", axis="x", color="k", alpha=0.5,linestyle="-", linewidth=1)
+    ax.grid(which="major", axis="y", color="k", alpha=0.5,linestyle="-", linewidth=1)
+
     plt.grid(True)
     plt.axis("equal")
 
@@ -86,8 +94,9 @@ def main():
             search_ry.append(row[1] + 0.5)
 
             plot_maze(maze_data)
+            plt.plot(row[0] + 0.5, row[1] + 0.5)
             plt.plot(search_rx, search_ry, ".b")
-            plt.pause(0.1)
+            plt.pause(0.001)
 
     opt_rx, opt_ry = [], []
     with open(opt_route_name, newline='') as f:
@@ -98,10 +107,11 @@ def main():
                 row[i] = int(c)
             opt_rx.append(row[0] + 0.5)
             opt_ry.append(row[1] + 0.5)
-    plt.plot(opt_rx, opt_ry, "r")
+    plt.plot(opt_rx, opt_ry, ".r")
+    plt.plot(opt_rx, opt_ry, "-r")
 
-
-
+# ani = animation.ArtistAnimation(plt.figure(2), ims, interval=200, repeat_delay=1000)
+# plot_maze(maze_data)
     plt.show()
     print("poyo")
 
