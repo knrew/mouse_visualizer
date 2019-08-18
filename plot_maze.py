@@ -1,15 +1,13 @@
 import matplotlib.pyplot as plt
 import csv
 
-# import matplotlib.animation as animation
-# import pandas as pd
-
 maze_data_name = '../maze8x8.csv'
 search_route_name = '../search_route.csv'
 opt_route_name = '../opt_route.csv'
 
 fig = plt.figure(1)
 ax = fig.add_subplot(111)
+
 
 def plot_maze(data):
     cx = 0
@@ -28,7 +26,7 @@ def plot_maze(data):
             # print("north")
             wx = [row[cx], row[cx] + 1]
             wy = [row[cy] + 1, row[cy] + 1]
-            plt.plot(wx, wy, 'k')
+            im = plt.plot(wx, wy, 'k')
         if row[east] == 1:
             # print("east")
             wx = [row[cx] + 1, row[cx] + 1]
@@ -48,8 +46,8 @@ def plot_maze(data):
     plt.plot(row[sx] + 0.5, row[sy] + 0.5, "og")
     plt.plot(row[gx] + 0.5, row[gy] + 0.5, "xg")
 
-    ax.grid(which="major", axis="x", color="k", alpha=0.5,linestyle="-", linewidth=1)
-    ax.grid(which="major", axis="y", color="k", alpha=0.5,linestyle="-", linewidth=1)
+    ax.grid(which="major", axis="x", color="k", alpha=0.5, linestyle="-", linewidth=1)
+    ax.grid(which="major", axis="y", color="k", alpha=0.5, linestyle="-", linewidth=1)
 
     plt.grid(True)
     plt.axis("equal")
@@ -57,7 +55,7 @@ def plot_maze(data):
 
 def read_csv(file_name):
     data = []
-    with open(maze_data_name, newline='') as f:
+    with open(file_name, newline='') as f:
         dataReader = csv.reader(f)
         header = next(dataReader)
         for row in dataReader:
@@ -69,7 +67,7 @@ def read_csv(file_name):
 
 def read_csv_xy(file_name):
     x, y = [], []
-    with open(maze_data_name, newline='') as f:
+    with open(file_name, newline='') as f:
         dataReader = csv.reader(f)
         header = next(dataReader)
         for row in dataReader:
@@ -82,38 +80,21 @@ def read_csv_xy(file_name):
 
 def main():
     maze_data = read_csv(maze_data_name)
+    plot_maze(maze_data)
 
-    search_rx, search_ry = [], []
-    with open(search_route_name, newline='') as f:
-        dataReader = csv.reader(f)
-        header = next(dataReader)
-        for row in dataReader:
-            for i, c in enumerate(row):
-                row[i] = int(c)
-            search_rx.append(row[0] + 0.5)
-            search_ry.append(row[1] + 0.5)
+    search_route_data = read_csv(search_route_name)
+    for row in search_route_data:
+        plt.plot(row[0] + 0.5, row[1] + 0.5, "ob")
+        plt.pause(0.01)
 
-            plot_maze(maze_data)
-            plt.plot(row[0] + 0.5, row[1] + 0.5)
-            plt.plot(search_rx, search_ry, ".b")
-            plt.pause(0.001)
-
-    opt_rx, opt_ry = [], []
-    with open(opt_route_name, newline='') as f:
-        dataReader = csv.reader(f)
-        header = next(dataReader)
-        for row in dataReader:
-            for i, c in enumerate(row):
-                row[i] = int(c)
-            opt_rx.append(row[0] + 0.5)
-            opt_ry.append(row[1] + 0.5)
-    plt.plot(opt_rx, opt_ry, ".r")
+    opt_rx, opt_ry = read_csv_xy(opt_route_name)
+    opt_rx = [n + 0.5 for n in opt_rx]
+    opt_ry = [n + 0.5 for n in opt_ry]
     plt.plot(opt_rx, opt_ry, "-r")
 
-# ani = animation.ArtistAnimation(plt.figure(2), ims, interval=200, repeat_delay=1000)
-# plot_maze(maze_data)
     plt.show()
-    print("poyo")
+    print("fin")
+
 
 if __name__ == '__main__':
     main()
