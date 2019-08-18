@@ -1,9 +1,11 @@
 import matplotlib.pyplot as plt
 import csv
+from os.path import expanduser
 
-maze_data_name = '../maze8x8.csv'
-search_route_name = '../search_route.csv'
-opt_route_name = '../optimal_route.csv'
+home = expanduser("~/")
+maze_data_name = home + '/micromouse/maze8x8.csv'
+search_route_name = home + '/micromouse/search_route.csv'
+opt_route_name = home + '/micromouse/optimal_route.csv'
 
 fig = plt.figure(1)
 ax = fig.add_subplot(111)
