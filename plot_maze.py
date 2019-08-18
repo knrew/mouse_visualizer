@@ -3,7 +3,7 @@ import csv
 
 maze_data_name = '../maze8x8.csv'
 search_route_name = '../search_route.csv'
-opt_route_name = '../opt_route.csv'
+opt_route_name = '../optimal_route.csv'
 
 fig = plt.figure(1)
 ax = fig.add_subplot(111)
@@ -46,9 +46,8 @@ def plot_maze(data):
     plt.plot(row[sx] + 0.5, row[sy] + 0.5, "og")
     plt.plot(row[gx] + 0.5, row[gy] + 0.5, "xg")
 
-    ax.grid(which="major", axis="x", color="k", alpha=0.5, linestyle="-", linewidth=1)
-    ax.grid(which="major", axis="y", color="k", alpha=0.5, linestyle="-", linewidth=1)
-
+    # ax.grid(which="major", axis="x", color="k", alpha=0.5, linestyle="-", linewidth=1)
+    # ax.grid(which="major", axis="y", color="k", alpha=0.5, linestyle="-", linewidth=1)
     plt.grid(True)
     plt.axis("equal")
 
