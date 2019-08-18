@@ -1,13 +1,9 @@
+import sys
 import matplotlib.pyplot as plt
-import matplotlib.animation as animation
+# import matplotlib.animation as animation
 from os.path import expanduser
 
 import csv_reader
-
-home = expanduser("~/")
-maze_data_name = home + '/micromouse/maze8x8.csv'
-search_route_name = home + '/micromouse/search_route.csv'
-opt_route_name = home + '/micromouse/optimal_route.csv'
 
 
 def draw_maze(data):
@@ -57,38 +53,57 @@ def fill_square(x, y, color='y', alpha=0.5):
     return plt.fill(fill_x, fill_y, color=color, alpha=alpha)
 
 
-def main():
+def draw(maze_data_name, search_route_name, optimal_route_name):
     fig = plt.figure(1)
-    plt.grid(True)
-    plt.axis("equal")
-
     # ax = fig.add_subplot(111)
 
     maze_data = csv_reader.read_csv(maze_data_name)
-    start = [maze_data[0][6], maze_data[0][6]]
-    goal = [maze_data[0][8], maze_data[0][9]]
+    search_route_data = csv_reader.read_csv(search_route_name)
+    optimal_rx, optimal_ry = csv_reader.read_csv_xy(optimal_route_name)
+
+    plt.grid(True)
+    plt.axis("equal")
+
+    # start = [maze_data[0][6], maze_data[0][6]]
+    # goal = [maze_data[0][8], maze_data[0][9]]
+
     draw_maze(maze_data)
 
-    ims = []
-
-    search_rx, search_ry = [], []
-    search_route_data = csv_reader.read_csv(search_route_name)
+    #
+    # draw search process
+    #
     point, = plt.plot(-1, -1, "ob")
-    for i, row in enumerate(search_route_data):
+    for row in search_route_data:
         point.remove()
         point, = plt.plot(row[0] + 0.5, row[1] + 0.5, "ob")
         fill_square(row[0], row[1])
         plt.pause(0.05)
 
-    opt_rx, opt_ry = csv_reader.read_csv_xy(opt_route_name)
-    opt_rx = [n + 0.5 for n in opt_rx]
-    opt_ry = [n + 0.5 for n in opt_ry]
+    #
+    # draw optimal route
+    #
+    optimal_rx = [n + 0.5 for n in optimal_rx]
+    optimal_ry = [n + 0.5 for n in optimal_ry]
+    plt.plot(optimal_rx, optimal_ry, "-r")
 
-    # plt.plot(search_rx, search_ry, "ob")
-    plt.plot(opt_rx, opt_ry, "-r")
     plt.show()
     print("fin")
 
 
 if __name__ == '__main__':
-    main()
+    # default file name
+    root = expanduser("~/micromouse/")
+    maze_data_name = root + '/maze8x8.csv'
+    search_route_name = root + '/search_route.csv'
+    optimal_route_name = root + '/optimal_route.csv'
+
+    args = sys.argv
+    for i, arg in enumerate(sys.argv):
+        if i == 1:
+            maze_data_name = arg
+        if i == 2:
+            search_route_name = arg
+        if i == 3:
+            optimal_route_name = arg
+
+    draw(maze_data_name, search_route_name, optimal_route_name)

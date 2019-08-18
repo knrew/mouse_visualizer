@@ -1,11 +1,12 @@
 import csv
 
+
 def read_csv(file_name):
     data = []
     with open(file_name, newline='') as f:
-        dataReader = csv.reader(f)
-        header = next(dataReader)
-        for row in dataReader:
+        reader = csv.reader(f)
+        header = next(reader)
+        for row in reader:
             for i, c in enumerate(row):
                 row[i] = float(c)
             data.append(row)
@@ -15,9 +16,9 @@ def read_csv(file_name):
 def read_csv_xy(file_name):
     x, y = [], []
     with open(file_name, newline='') as f:
-        dataReader = csv.reader(f)
-        header = next(dataReader)
-        for row in dataReader:
+        reader = csv.reader(f)
+        header = next(reader)
+        for row in reader:
             for i, c in enumerate(row):
                 row[i] = int(c)
             x.append(row[0])
