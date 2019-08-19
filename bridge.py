@@ -6,6 +6,8 @@ import mouse_visualizer
 
 
 def main(root_directory, program_name, maze_data_name, search_route_name, optimal_route_name):
+    print(maze_data_name)
+
     build_directory = root_directory + "/build/"
     solver_directory = root_directory + program_name
 
@@ -13,7 +15,7 @@ def main(root_directory, program_name, maze_data_name, search_route_name, optima
     subprocess.check_call(["cmake", solver_directory], cwd=build_directory)
     subprocess.check_call(["make"], cwd=build_directory)
 
-    command = ["./" + program_name, root + maze_data_name, root + search_route_name, root + optimal_route_name]
+    command = ["./" + program_name, maze_data_name, search_route_name, optimal_route_name]
     subprocess.check_call(command, cwd=build_directory)
 
     mouse_visualizer.draw(maze_data_name, search_route_name, optimal_route_name)

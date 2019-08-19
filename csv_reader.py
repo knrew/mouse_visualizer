@@ -20,7 +20,7 @@ def read_csv_xy(file_name):
         header = next(reader)
         for row in reader:
             for i, c in enumerate(row):
-                row[i] = int(c)
+                row[i] = float(c)
             x.append(row[0])
             y.append(row[1])
     return x, y
