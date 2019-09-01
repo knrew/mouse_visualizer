@@ -72,12 +72,13 @@ def draw(maze_data_name, search_route_name, optimal_route_name):
     #
     # draw search process
     #
-    point, = plt.plot(-1, -1, "ob")
-    for row in search_route_data:
+    point, = plt.plot(0.5, 0.5, "ob")
+    for i, row in enumerate(search_route_data):
         point.remove()
         point, = plt.plot(row[0] + 0.5, row[1] + 0.5, "ob")
         fill_square(row[0], row[1])
-        plt.pause(0.05)
+        plt.text(row[0] + 0.5, row[1] + 0.5, str(i),fontsize=15, color="b")
+        plt.pause(0.01)
 
     #
     # draw optimal route
@@ -93,7 +94,7 @@ def draw(maze_data_name, search_route_name, optimal_route_name):
 if __name__ == '__main__':
     # default file name
     root = expanduser("~/micromouse/")
-    maze_data_name = root + '/maze8x8.csv'
+    maze_data_name = root + '/maze_data/maze8x8.csv'
     search_route_name = root + '/search_route.csv'
     optimal_route_name = root + '/optimal_route.csv'
 
